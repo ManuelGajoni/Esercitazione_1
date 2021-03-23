@@ -3,6 +3,7 @@ package it.polito.tdp.parole;
 import it.polito.tdp.parole.model.Parole;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,7 +13,8 @@ import javafx.scene.control.TextField;
 
 public class FXMLController {
 	
-	Parole elenco ;
+	Parole elenco = new Parole ();
+	ArrayList <Parole> E = new ArrayList <Parole> ();
 
     @FXML
     private ResourceBundle resources;
@@ -33,13 +35,45 @@ public class FXMLController {
     private Button btnReset;
 
     @FXML
-    void doInsert(ActionEvent event) {
-    	// TODO
+    private TextArea txtTempo;
+    
+    @FXML
+    private Button btnCancella;
+
+    @FXML
+    void doCancella(ActionEvent event) 
+    {
+    	this.elenco.Cancella(this.txtParola.getText());
+    	this.txtResult.clear();
+    	this.txtTempo.clear();
+    	this.elenco.getElenco(); 
+    	for(int i=0; i< this.elenco.getElenco().size();i++)
+    	{
+    		this.txtResult.setText(this.txtResult.getText()+"\n"+this.elenco.getElenco().get(i));
+    	}
+    	this.txtTempo.setText(this.elenco.Tempo());
+    }
+    
+    @FXML
+    void doInsert(ActionEvent event) 
+    {
+    	this.txtResult.clear();
+    	if(this.txtParola.getText() != null)
+    	{
+    		this.elenco.addParola(this.txtParola.getText());
+    		this.elenco.getElenco(); 
+        	for(int i=0; i< this.elenco.getElenco().size();i++)
+        	{
+        		this.txtResult.setText(this.txtResult.getText()+"\n"+this.elenco.getElenco().get(i));
+        	}
+    	}
     }
 
     @FXML
-    void doReset(ActionEvent event) {
-    	// TODO
+    void doReset(ActionEvent event) 
+    {
+    	this.elenco.reset();
+    	this.txtResult.clear();
     }
 
     @FXML
